@@ -42,10 +42,14 @@ const CampgroundSchema = new Schema ({
         }
     },
 
-    images: [{
-        url: String,
-        filename: String
-    }],
+    image: {
+        type: String
+    },
+
+    // images: [{
+    //     url: String,
+    //     filename: String
+    // }],
 
     contacts: {
         tel: String,
@@ -57,7 +61,12 @@ const CampgroundSchema = new Schema ({
         type: Schema.Types.ObjectId,
         ref: 'Review',
         autopopulate: true
-    }]
+    }],
+
+    updated: {
+        type: Date,
+        default: Date.now()
+    }
 
 })
 

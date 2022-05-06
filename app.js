@@ -14,8 +14,8 @@ const passportLocal = require("passport-local");
 const passportLocalMongoose = require('passport-local-mongoose');
 const methodOverride = require('method-override');
 const path = require('path');
-const { catchAsync } = require('./middleware');
-const zips = require('./zips')
+const { catchAsync, isLoggedIn } = require('./middleware');
+const zips = require('./seeds/zips');
 
 // connecting mongoose
 mongoose.connect("mongodb://0.0.0.0:27017/CampProject");
@@ -74,13 +74,10 @@ app.route('/login')
 })
 .post(passport.authenticate('local', {failureFlash:true, failureRedirect: '/login'}), 
     async (req, res) => {
-        req.flash('success', `Welcome back, ${req.user.name}`)
-        if (!res.locals.returnTo || res.locals.returnTo !== '/login' || res.locals.returnTo !== '/logo.png') {
-            res.redirect('/home')
-        } else {
-        res.redirect(res.locals.returnTo)
-    }
-        delete res.locals.returnTo;
+        req.flash('success', `Welcome back, ${req.user.name}`);
+        if (!req.session.returnTo) {res.redirect('/campgrounds')} else {
+            res.redirect(req.session.returnTo)}
+            delete req.session.returnTo;
 })
 
 app.route('/register')
@@ -99,6 +96,7 @@ app.route('/register')
 }))
 
 app.get('/home', (req, res) => {
+    req.session.returnTo = req.originalUrl;
     res.render('home')
 })
 
@@ -108,18 +106,34 @@ app.post('/logout', async (req, res) => {
     res.redirect('/campgrounds');
 })
 
-app.get('/new', (req, res) => {
+app.get('/campgrounds/new', isLoggedIn, (req, res) => {
     res.render('campgrounds/new', {zips})
 })
 
 
-app.route('/campgrounds')
+app.get('/campgrounds', catchAsync (async (req, res) => {
+    const campgrounds = await Campground.find();
+    res.render("campgrounds/index", { campgrounds })
+}))
+app.post('/campgrounds', catchAsync( async (req, res) => {
+    const campground = new Campground(req.body.campground)
+    campground.location = req.body.location;
+    campground.contacts = req.body.contacts;
+    campground.owner = req.user._id;
+    campground.image = req.body.campground.image;
+    await campground.save();
+    req.flash('success', 'Your campground was added to system!')
+    res.redirect(`/campgrounds/${campground.id}`)
+}))
 
 
-app.route('/campgounds/:id')
+app.get('/campgrounds/:id', catchAsync (async (req, res) => {
+    const campground = await Campground.findById(req.params.id);
+    res.render('campgrounds/show', {campground})
+}))
 
-app.route('/campgrounds/:id/edit')
+// app.route('/campgrounds/:id/edit')
 
-app.all('*', (req, res) => {})
+// app.all('*', (req, res) => {})
 // setting port for app
 app.listen(3030, console.log("App is working at 3030 port"));

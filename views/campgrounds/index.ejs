@@ -1,0 +1,20 @@
+<% layout('partials/boilerplate') %>
+<div class="row row-cols-1 row-cols-md-3 g-3 mt-3">
+    <% for (campground of campgrounds) { %> 
+    <div class="col">
+      <div class="card h-100">
+        <img src="<%= campground.image %> " class="img-fluid" alt="Campground photo is here" height="300px">
+        <div class="card-body">
+          <h5 class="card-title"><%= campground.title%></h5>
+          <p class="card-text"><%= campground.description %> </p>
+          <p class="card-text">Price per night stay: <b><%= campground.price %>$</b> </p>
+          <p class="card-text"><%= campground.location.city %>, <%= campground.location.state %>  </p>
+          <a href="/campgrounds/<%= campground.id %> " class="btn btn-success text-dark bg-opacity-50">View more</a>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Last updated <% campground.updated %> </small>
+        </div>
+      </div>
+    </div>
+    <% } %> 
+</div>

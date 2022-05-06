@@ -1,0 +1,34 @@
+<% layout('partials/boilerplate') %>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <img src="/img.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h4 class="card-title"><%= campground.title %> </h4>
+                <h5 class="card-text text-start">We are located at <%= campground.location.city %>, <%= campground.location.state %>, <%= campground.location.zip %> </h5>
+                <h6 class="card-text text-start">Price per night stay: $ <%= campground.price %> </h6>
+                <p class="card-text text-start"><%= campground.description %> </p>
+                <div class="card-body">
+                    Contacts
+                    <p class="card-text text-start">Tel.: <%= campground.contacts.tel %> </p>
+                    <p class="card-text text-start">Email: <%= campground.contacts.email %> </p>
+                    <p class="card-text text-start">Website: <%= campground.contacts.website %> </p>
+                </div>
+                <div class="d-flex justify-content-around mx-2">
+                    <% console.log(currentUser, campground.owner)
+                        if (currentUser.id === campground.owner.id) { %> 
+                    <a href="/campgrounds/<%= campground.id %>/edit" class="btn btn-primary">Edit Campground</a>
+                    <a href="/campgrounds" class="btn btn-primary">Back to all Campgrounds</a>
+                    <form action="/campgrounds/<%= campground.id %>?_method=DELETE" method="post">
+                        <button type="submit" class="btn btn-primary">Delete</button>    
+                    </form>
+                    <% } else { %> 
+                        <a href="/campgrounds" class="btn btn-primary">Back to all Campgrounds</a>
+                    <% }%>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+    </div>
+  </div>

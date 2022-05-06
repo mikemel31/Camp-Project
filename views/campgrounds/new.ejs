@@ -1,5 +1,5 @@
 <% layout('partials/boilerplate') %>
-<form class="row form-floating g-3 my-3">
+<form class="row form-floating g-3 my-3" action="/campgrounds" method="post">
     <div class="col-md-6 form-floating">
         <input type="text" class="form-control" id="name" name="campground[title]">
         <label for="name">Campground title</label>
@@ -9,15 +9,15 @@
         <label for="price">Price</label>
     </div>
     <div class="col-12 form-floating">
-        <input type="text" class="form-control" id="address" name="campground[adress]">
+        <input type="text" class="form-control" id="address" name="campground[address]">
         <label for="inputAddress">Address</label>
     </div>
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="city" name="campground[location[city]]">
+        <input type="text" class="form-control" id="city" name="location[city]">
         <label for="city">City</label>
     </div>
     <div class="col-md-4 form-floating">
-        <select id="state" class="form-select" id="state" name="campground[location[state]]">
+        <select id="state" class="form-select" id="state" name="location[state]">
             <option disabled selected value> -- Select State -- </option>
             <% for (zip of zips) { %> 
                 <option value="<%= zip.code %> "><%= zip.name %> </option>
@@ -26,7 +26,7 @@
         <label for="state">State</label>
     </div>
     <div class="col-md-2 form-floating">
-        <input type="text" class="form-control" id="zip" name="campground[location[zip]]">
+        <input type="text" class="form-control" id="zip" name="location[zip]">
         <label for="zip">Zip</label>
     </div>
     <div class="col-12 form-floating">
@@ -34,18 +34,19 @@
         <label for="description">Description</label>
     </div>
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="tel" name="campground[contacts[tel]]">
+        <input type="text" class="form-control" id="tel" name="contacts[tel]">
         <label for="tel">Telephone</label>
     </div>
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="email" name="campground[contacts[email]]">
+        <input type="text" class="form-control" id="email" name="contacts[email]">
         <label for="email">Email</label>
     </div>
     <div class="col-md-12 form-floating">
-        <input type="text" class="form-control" id="website" name="campground[contacts[website]]">
+        <input type="text" class="form-control" id="website" name="contacts[website]">
         <label for="website">Website</label>
     </div>
     <div class="col-12" style="width: -webkit-fill-available;">
       <button type="submit" class="btn btn-primary">Create new campground</button>
     </div>
+    <input type="text" value="/img.png" hidden readonly name="campground[image]">
   </form>
