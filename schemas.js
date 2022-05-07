@@ -8,10 +8,11 @@ module.exports.campgroundSchema = Joi.object({
         image: Joi.string().required(),
         city: Joi.string().required(),
         state: Joi.string().required(),
-        description: Joi.string().required(),
-        tel: Joi.string().required(),
-        email: Joi.string().required(),
-        website: Joi.string().required(),
+        address: Joi.string(),
+        description: Joi.string(),
+        tel: Joi.string(),
+        email: Joi.string(),
+        website: Joi.string(),
     }).required()
 });
 

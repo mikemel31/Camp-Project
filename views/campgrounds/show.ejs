@@ -10,9 +10,9 @@
                 <p class="card-text text-start"><%= campground.description %> </p>
                 <div class="card-body py-2 border">
                     <h6>Contacts</h6>
-                    <p class="card-text text-start">Tel.: <%= campground.contacts.tel %> </p>
-                    <p class="card-text text-start">Email: <%= campground.contacts.email %> </p>
-                    <p class="card-text text-start">Website: <%= campground.contacts.website %> </p>
+                    <p class="card-text text-start">Tel.: <%= campground.tel %> </p>
+                    <p class="card-text text-start">Email: <%= campground.email %> </p>
+                    <p class="card-text text-start">Website: <%= campground.website %> </p>
                 </div>
                 <div class="list-group list-group-horizontal-lg justify-content-evenly mx-auto mt-3">
                        <% if (currentUser && currentUser.id === campground.owner.id) { %> 
@@ -26,6 +26,7 @@
                     <% }%>
                 </div>
             </div>
+            <div class="card-footer text-center">Updated <%= campground.updated.toISOString().substring(0, 10)  %> </div>
         </div>
     </div>
     <div class="col-lg-5 mt-2">

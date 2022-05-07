@@ -37,35 +37,16 @@ const CampgroundSchema = new Schema ({
     city: String,
     zip: {
         type: Number,
-        maxlength: 6
+        maxlength: 5
     },
-
-    // location: {
-    //     state: {
-    //         type: String,
-    //         maxlength: 3
-    //     },
-    //     city: String,
-    //     zip: {
-    //         type: String,
-    //         maxlength: 6
-    //     }
-    // },
 
     image: {
         type: String
     },
 
-    // images: [{
-    //     url: String,
-    //     filename: String
-    // }],
-
-    contacts: {
-        tel: String,
-        email: String,
-        website: String
-    },
+    tel: String,
+    email: String,
+    website: String,
 
     reviews: [
         {

@@ -1,31 +1,31 @@
 <% layout('partials/boilerplate') %>
-<form class="row form-floating g-3 my-3" action="/campgrounds/<%=campground.id%>?_method=PATCH" method="post">
+<form class="row form-floating g-3 my-3 needs-validation" action="/campgrounds/<%=campground.id%>?_method=PATCH" method="post" novalidate>
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="name" name="campground[title]" value="<%= campground.title %>">
+        <input type="text" class="form-control" id="name" name="campground[title]" value="<%= campground.title %>" required>
         <label for="name">Campground title</label>
     </div>
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="price" name="campground[price]" value="<%= campground.price %>">
+        <input type="text" class="form-control" id="price" name="campground[price]" value="<%= campground.price %>" required>
         <label for="price">Price</label>
     </div>
     <div class="col-12 form-floating">
-        <input type="text" class="form-control" id="address" name="campground[address]" value="<%= campground.address %>" >
+        <input type="text" class="form-control" id="address" name="campground[address]" value="<%= campground.address %>">
         <label for="inputAddress">Address</label>
     </div>
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="city" name="campground[city]" value="<%= campground.location.city %>">
+        <input type="text" class="form-control" id="city" name="campground[city]" value="<%= campground.city %>" required>
         <label for="city">City</label>
     </div>
     <div class="col-md-4 form-floating">
         <select id="state" class="form-select" id="state" name="campground[state]" >
             <% for (zip of zips) { %> 
-                <option value="<%= zip.code %>" <% if (zip.code === campground.location.state) { %> selected <% } %>  > <%= zip.name %> </option>
+                <option value="<%= zip.code %>" <% if (zip.code === campground.state) { %> selected <% } %>  > <%= zip.name %> </option>
                 <% } %> 
         </select>
         <label for="state">State</label>
     </div>
     <div class="col-md-2 form-floating">
-        <input type="text" class="form-control" id="zip" name="campground[zip]" value="<%= campground.location.zip %>">
+        <input type="text" class="form-control" id="zip" name="campground[zip]" value="<%= campground.zip %>" required>
         <label for="zip">Zip</label>
     </div>
     <div class="col-12 form-floating">
@@ -34,15 +34,15 @@
     </div>
     <input type="text" value="/img.png" hidden readonly name="campground[image]">
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="tel" name="campground[tel]" value="<%= campground.contacts.tel %>">
+        <input type="tel" class="form-control" id="tel" name="campground[tel]" value="<%= campground.tel %>">
         <label for="tel">Telephone</label>
     </div>
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="email" name="campground[email]" value="<%= campground.contacts.email %>">
+        <input type="email" class="form-control" id="email" name="campground[email]" value="<%= campground.email %>">
         <label for="email">Email</label>
     </div>
     <div class="col-md-12 form-floating">
-        <input type="text" class="form-control" id="website" name="campground[website]" value="<%= campground.contacts.website %>">
+        <input type="text" class="form-control" id="website" name="campground[website]" value="<%= campground.website %>">
         <label for="website">Website</label>
     </div>
     <div class="col-12" style="width: -webkit-fill-available;">

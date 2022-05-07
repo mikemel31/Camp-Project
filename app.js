@@ -14,11 +14,11 @@ const passportLocal = require("passport-local");
 const passportLocalMongoose = require('passport-local-mongoose');
 const methodOverride = require('method-override');
 const path = require('path');
-const { isLoggedIn, existingCamp, isOwner, isReviewOwner, existingReview } = require('./middleware');
+const { isLoggedIn, existingCamp, isOwner, isReviewOwner, existingReview, validateCampground, validateReview } = require('./middleware');
 const {catchAsync, ExpressError} = require('./utils')
 const zips = require('./seeds/zips');
-const sass = require('sass');
-const campground = require('./models/campground');
+const {reviewSchema, campgroundSchema} = require('./schemas');
+const Joi = require('joi');
 
 // connecting mongoose
 mongoose.connect("mongodb://0.0.0.0:27017/CampProject");
@@ -119,7 +119,7 @@ app.get('/campgrounds', catchAsync (async (req, res) => {
     res.render("campgrounds/index", { campgrounds })
 }))
 
-app.post('/campgrounds', catchAsync( async (req, res) => {
+app.post('/campgrounds', validateCampground, catchAsync( async (req, res) => {
     const campground = new Campground(req.body.campground)
     campground.owner = req.user._id;
     await campground.save(function(err) {
@@ -144,7 +144,8 @@ app.route('/campgrounds/:id')
 .patch(
     existingCamp, 
     isLoggedIn, 
-    isOwner, 
+    isOwner,
+    validateCampground, 
     catchAsync( async (req, res) => {
         const { id } = req.params;
         const campground = req.body.campground;
@@ -160,7 +161,7 @@ app.route('/campgrounds/:id/edit')
 }))
 
 app.post('/campgrounds/:id/reviews',
-    isLoggedIn, 
+    isLoggedIn, validateReview,
     catchAsync( async (req, res) => {
     const campground = await Campground.findById(req.params.id).populate({path: "reviews", populate: {path: 'owner'}}).populate('owner')
     const review = new Review(req.body.review);
