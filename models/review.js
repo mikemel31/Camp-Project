@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const User = require('./user')
 
 const ReviewSchema = new Schema({
-    Rating: {
+    rating: {
         type: Number,
         max: 5,
         min: 1,
@@ -18,12 +19,12 @@ const ReviewSchema = new Schema({
         autopopulate: true
     },
 
-    date: { 
-        type: Date, 
-        default: Date.now 
-    }
+    // date: { 
+    //     type: Date, 
+    //     default: Date.now 
+    // }
 })
 
-ReviewSchema.plugin(require('mongoose-autopopulate'))
+ReviewSchema.plugin(require('mongoose-autopopulate'));
 
 module.exports = mongoose.model('Review', ReviewSchema)

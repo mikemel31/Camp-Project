@@ -14,8 +14,11 @@ const passportLocal = require("passport-local");
 const passportLocalMongoose = require('passport-local-mongoose');
 const methodOverride = require('method-override');
 const path = require('path');
-const { catchAsync, isLoggedIn } = require('./middleware');
+const { isLoggedIn, existingCamp, isOwner, isReviewOwner, existingReview } = require('./middleware');
+const {catchAsync, ExpressError} = require('./utils')
 const zips = require('./seeds/zips');
+const sass = require('sass');
+const campground = require('./models/campground');
 
 // connecting mongoose
 mongoose.connect("mongodb://0.0.0.0:27017/CampProject");
@@ -83,7 +86,7 @@ app.route('/login')
 app.route('/register')
 .get((req, res) => {
     res.render('users/register')
-})  
+})
 .post(catchAsync (async (req, res) => {
     const {username, password, email, name} = req.body;
     const user = new User({email, username, name});
@@ -115,25 +118,87 @@ app.get('/campgrounds', catchAsync (async (req, res) => {
     const campgrounds = await Campground.find();
     res.render("campgrounds/index", { campgrounds })
 }))
+
 app.post('/campgrounds', catchAsync( async (req, res) => {
     const campground = new Campground(req.body.campground)
     campground.location = req.body.location;
     campground.contacts = req.body.contacts;
     campground.owner = req.user._id;
     campground.image = req.body.campground.image;
-    await campground.save();
+    await campground.save(function(err) {
+      if (err) console.log(err)});
     req.flash('success', 'Your campground was added to system!')
     res.redirect(`/campgrounds/${campground.id}`)
 }))
 
 
-app.get('/campgrounds/:id', catchAsync (async (req, res) => {
+app.route('/campgrounds/:id')
+.get(existingCamp, catchAsync (async (req, res) => {
+    req.session.returnTo = req.originalUrl;
     const campground = await Campground.findById(req.params.id);
     res.render('campgrounds/show', {campground})
 }))
+.delete(existingCamp, isLoggedIn, isOwner, catchAsync (async (req, res) => {
+    const { id } = req.params;
+    await Campground.findByIdAndRemove(id);
+    req.flash('success', 'Your campground was deleted!')
+    res.redirect("/campgrounds");
+}))
+.patch(
+    existingCamp, 
+    isLoggedIn, 
+    isOwner, 
+    catchAsync( async (req, res) => {
+        const { id } = req.params;
+        const campground = req.body.campground;
+        campground.location = req.body.location;
+        campground.contacts = req.body.contacts;
+        campground.image = req.body.campground.image;
+        const campgroundUpd = await Campground.findByIdAndUpdate(id, campground);
+        req.flash('success', 'Your campground was updated!');
+        res.redirect(`/campgrounds/${campgroundUpd.id}`);
+}))
 
-// app.route('/campgrounds/:id/edit')
+app.route('/campgrounds/:id/edit')
+.get(existingCamp, isLoggedIn, isOwner, catchAsync(async (req, res) => {
+    const campground = await Campground.findById(req.params.id);
+    res.render("campgrounds/edit", { campground, zips });
+}))
 
-// app.all('*', (req, res) => {})
+app.post('/campgrounds/:id/reviews',
+    isLoggedIn, 
+    catchAsync( async (req, res) => {
+    const campground = await await Campground.findById(req.params.id).populate({path: "reviews", populate: {path: 'owner'}}).populate('owner')
+    const review = new Review(req.body.review);
+    review.owner = req.user._id;
+    campground.reviews.push(review);
+    await review.save();
+    await campground.save(function(err) {
+        if (err) console.log(err)});
+    req.flash('success', 'Your review added')
+    res.redirect(`/campgrounds/${campground.id}`);
+}))
+
+app.route('/campgrounds/:id/reviews/:reviewId')
+.delete(existingReview, isLoggedIn, isReviewOwner, catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    Review.findByIdAndRemove(reviewId);
+    req.flash('success', 'Your review was deleted');
+    res.redirect(`/campgrounds/${id}`);
+  }))
+
+
+app.all("*", (req, res, next) => {
+    next(new ExpressError("Page Not Found", 404));
+});
+
+app.use((err, req, res, next) => {
+    const { statusCode = 500 } = err;
+    if (!err.message) {
+        err.message = "Oh No, Something Went Wrong!";
+        res.status(statusCode).render("error", { err });
+    }
+});
 // setting port for app
 app.listen(3030, console.log("App is working at 3030 port"));

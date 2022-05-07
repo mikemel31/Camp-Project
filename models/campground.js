@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const User = require('./user');
-const Review = require('./review')
+const Review = require('./review');
 
 const CampgroundSchema = new Schema ({
     owner: {
@@ -33,12 +33,12 @@ const CampgroundSchema = new Schema ({
     location: {
         state: {
             type: String,
-            maxlength: 2
+            maxlength: 3
         },
         city: String,
         zip: {
             type: String,
-            maxlength: 5
+            maxlength: 6
         }
     },
 
@@ -57,11 +57,13 @@ const CampgroundSchema = new Schema ({
         website: String
     },
 
-    reviews: [{
+    reviews: [
+        {
         type: Schema.Types.ObjectId,
         ref: 'Review',
         autopopulate: true
-    }],
+        }
+    ],
 
     updated: {
         type: Date,

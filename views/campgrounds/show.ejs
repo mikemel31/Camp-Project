@@ -1,11 +1,11 @@
 <% layout('partials/boilerplate') %>
-<div class="row py-2">
-    <div class="col-lg-7">
+<div class="row my-2">
+    <div class="col-lg-7 my-2">
         <div class="card">
             <img src="/img.png" class="img-fluid" height="300px" width='auto' alt="...">
             <div class="card-body">
                 <h4 class="card-title"><%= campground.title %> </h4>
-                <h5 class="card-text text-start">We are located at <%= campground.location.city %>, <%= campground.location.state %>, <%= campground.location.zip %> </h5>
+                <h5 class="card-text text-start">We are located at <%= campground.address %> <br> <%= campground.location.city %>, <%= campground.location.state %>, <%= campground.location.zip %> </h5>
                 <h6 class="card-text text-start">Price per night stay: $ <%= campground.price %> </h6>
                 <p class="card-text text-start"><%= campground.description %> </p>
                 <div class="card-body py-2 border">
@@ -28,6 +28,73 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-5">
+    <div class="col-lg-5 mt-2">
+        <% if (currentUser) { %>
+        <div class="card mb-3">
+            <form action="/campgrounds/<%= campground.id %>/reviews" method="post" novalidate class="m-3 needs-validation" >
+              <div class="mb-3">
+                <div>
+                  <label class='form-label' for="reviewtext">Describe your stay at this place</label>
+                  <textarea class='form-control' type="text" id="body" name="review[comment]" placeholder="Your review" required></textarea>
+                  <div class="offset-5 invalid-feedback">
+                    This field shouldn't be blank
+                  </div>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                </div>
+                <div class="d-flex justify-content-start align-items-center my-2">
+                    <div>Rate your stay:</div>
+                    <fieldset class="starability-basic" style="transform: scale(0.75)">
+                        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+                        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                        <label for="first-rate1" title="Terrible">1 star</label>
+                        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                        <label for="first-rate2" title="Not good">2 stars</label>
+                        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                        <label for="first-rate3" title="Average">3 stars</label>
+                        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                        <label for="first-rate4" title="Very good">4 stars</label>
+                        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                        <label for="first-rate5" title="Amazing">5 stars</label>
+                      </fieldset>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+        <% } else { %>
+            <h4>Please sign in to leave a review</h4>
+        <% } %> 
+        <div class="card mb-3">
+            <h3 class="card-header mb-3">Reviews:</h3>
+            <% if (campground.reviews.length === 0) { %>
+                <div class="card-body">There are no reviews yet, but you may be first</div>
+            <% } %> 
+            <% for( review of campground.reviews ) {%>
+            <div class="card mx-3 mb-3">
+                <% if (currentUser && review.owner.id === currentUser.id) { %> 
+                    <div class="card-body row">
+                        <div class="col-10">
+                            <p class="starability-result " style="transform:scale(0.5); margin-left: -35px" data-rating="<%= review.rating %>"> </p>
+                            <p class="card-text"><%= review.comment %> </p> 
+                        </div>
+                        <div class="col-2">
+                            <form action="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>?_method=DELETE" method="post" class=" d-inline align-end">
+                            <button class="btn btn-sm btn-danger">X</button>
+                            </form>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <div class="card-body row">            
+                        <div class="col-12">
+                            <p class="starability-result" style="transform:scale(0.5); margin-left: -35px" data-rating="<%= review.rating %>"> </p>
+                            <p class="card-text">Review: <%= review.comment %> </p> 
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+            <% } %>
+        </div>
     </div>
   </div>
