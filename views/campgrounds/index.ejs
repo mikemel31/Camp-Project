@@ -8,11 +8,11 @@
           <h5 class="card-title"><%= campground.title%></h5>
           <p class="card-text"><%= campground.description %> </p>
           <p class="card-text">Price per night stay: <b><%= campground.price %>$</b> </p>
-          <p class="card-text"><%= campground.location.city %>, <%= campground.location.state %>  </p>
+          <p class="card-text"><%= campground.city %>, <%= campground.state %>  </p>
           <a href="/campgrounds/<%= campground.id %> " class="btn btn-success text-dark bg-opacity-50">View more</a>
         </div>
         <div class="card-footer">
-          <small class="text-muted">Last updated <% campground.updated %> </small>
+          <small class="text-muted">Last updated <%= campground.updated.toISOString().substring(0, 10) %> </small>
         </div>
       </div>
     </div>

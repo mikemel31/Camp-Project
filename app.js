@@ -121,10 +121,7 @@ app.get('/campgrounds', catchAsync (async (req, res) => {
 
 app.post('/campgrounds', catchAsync( async (req, res) => {
     const campground = new Campground(req.body.campground)
-    campground.location = req.body.location;
-    campground.contacts = req.body.contacts;
     campground.owner = req.user._id;
-    campground.image = req.body.campground.image;
     await campground.save(function(err) {
       if (err) console.log(err)});
     req.flash('success', 'Your campground was added to system!')
@@ -135,7 +132,7 @@ app.post('/campgrounds', catchAsync( async (req, res) => {
 app.route('/campgrounds/:id')
 .get(existingCamp, catchAsync (async (req, res) => {
     req.session.returnTo = req.originalUrl;
-    const campground = await Campground.findById(req.params.id);
+    const campground = await Campground.findById(req.params.id).populate({path: "reviews", populate: {path: 'owner'}}).populate('owner');
     res.render('campgrounds/show', {campground})
 }))
 .delete(existingCamp, isLoggedIn, isOwner, catchAsync (async (req, res) => {
@@ -151,9 +148,6 @@ app.route('/campgrounds/:id')
     catchAsync( async (req, res) => {
         const { id } = req.params;
         const campground = req.body.campground;
-        campground.location = req.body.location;
-        campground.contacts = req.body.contacts;
-        campground.image = req.body.campground.image;
         const campgroundUpd = await Campground.findByIdAndUpdate(id, campground);
         req.flash('success', 'Your campground was updated!');
         res.redirect(`/campgrounds/${campgroundUpd.id}`);
@@ -168,7 +162,7 @@ app.route('/campgrounds/:id/edit')
 app.post('/campgrounds/:id/reviews',
     isLoggedIn, 
     catchAsync( async (req, res) => {
-    const campground = await await Campground.findById(req.params.id).populate({path: "reviews", populate: {path: 'owner'}}).populate('owner')
+    const campground = await Campground.findById(req.params.id).populate({path: "reviews", populate: {path: 'owner'}}).populate('owner')
     const review = new Review(req.body.review);
     review.owner = req.user._id;
     campground.reviews.push(review);

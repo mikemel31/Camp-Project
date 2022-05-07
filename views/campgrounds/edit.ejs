@@ -1,11 +1,11 @@
 <% layout('partials/boilerplate') %>
 <form class="row form-floating g-3 my-3" action="/campgrounds/<%=campground.id%>?_method=PATCH" method="post">
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="name" name="campground[title]" value="<%= campground.title %> ">
+        <input type="text" class="form-control" id="name" name="campground[title]" value="<%= campground.title %>">
         <label for="name">Campground title</label>
     </div>
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="price" name="campground[price]" value="<%= campground.price %> ">
+        <input type="text" class="form-control" id="price" name="campground[price]" value="<%= campground.price %>">
         <label for="price">Price</label>
     </div>
     <div class="col-12 form-floating">
@@ -13,11 +13,11 @@
         <label for="inputAddress">Address</label>
     </div>
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="city" name="location[city]" value="<%= campground.location.city %> ">
+        <input type="text" class="form-control" id="city" name="campground[city]" value="<%= campground.location.city %>">
         <label for="city">City</label>
     </div>
     <div class="col-md-4 form-floating">
-        <select id="state" class="form-select" id="state" name="location[state]" >
+        <select id="state" class="form-select" id="state" name="campground[state]" >
             <% for (zip of zips) { %> 
                 <option value="<%= zip.code %>" <% if (zip.code === campground.location.state) { %> selected <% } %>  > <%= zip.name %> </option>
                 <% } %> 
@@ -25,26 +25,26 @@
         <label for="state">State</label>
     </div>
     <div class="col-md-2 form-floating">
-        <input type="text" class="form-control" id="zip" name="location[zip]" value="<%= campground.location.zip %> ">
+        <input type="text" class="form-control" id="zip" name="campground[zip]" value="<%= campground.location.zip %>">
         <label for="zip">Zip</label>
     </div>
     <div class="col-12 form-floating">
         <textarea class="col-12 form-control"  id="description" name="campground[description]" style="height:auto"><%= campground.description %></textarea>
         <label for="description">Description</label>
     </div>
+    <input type="text" value="/img.png" hidden readonly name="campground[image]">
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="tel" name="contacts[tel]" value="<%= campground.contacts.tel %> ">
+        <input type="text" class="form-control" id="tel" name="campground[tel]" value="<%= campground.contacts.tel %>">
         <label for="tel">Telephone</label>
     </div>
     <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="email" name="contacts[email]" value="<%= campground.contacts.email %> ">
+        <input type="text" class="form-control" id="email" name="campground[email]" value="<%= campground.contacts.email %>">
         <label for="email">Email</label>
     </div>
     <div class="col-md-12 form-floating">
-        <input type="text" class="form-control" id="website" name="contacts[website]" value="<%= campground.contacts.website %> ">
+        <input type="text" class="form-control" id="website" name="campground[website]" value="<%= campground.contacts.website %>">
         <label for="website">Website</label>
     </div>
-    <input type="text" value="/img.png" hidden readonly name="campground[image]">
     <div class="col-12" style="width: -webkit-fill-available;">
       <button type="submit" class="btn btn-primary">Update <%= campground.title %></button>
     </div>
