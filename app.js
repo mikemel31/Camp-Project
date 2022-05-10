@@ -84,6 +84,10 @@ app.set("view engine", "ejs");
 
 //user routes
 
+app.get('/', (req, res) => {
+    res.redirect('/home')
+})
+
 app.route('/login')
 .get((req, res) => {
     res.render('users/login')

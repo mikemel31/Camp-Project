@@ -1,0 +1,34 @@
+.container-fluid {
+    font-family: 'Koulen', cursive;
+    font-size: x-large;
+}
+
+.nav-link:hover {
+    color: #198754;
+}
+
+nav .btn {
+    padding: 5px 40px;
+    font-size: large;
+}
+
+nav .dropdown-menu {
+    font-size: large;
+}
+
+.mapboxgl-canvas {
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+#map {
+    height: 55vh;
+}
+
+.mapboxgl-ctrl-attrib-inner {
+    padding-bottom: 10px;
+}
+
+.mapboxgl-ctrl {
+    padding-bottom: 5px;
+}
