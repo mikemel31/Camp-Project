@@ -1,5 +1,5 @@
 <% layout('partials/boilerplate') %>
-<form class="row form-floating g-3 my-3 needs-validation" action="/campgrounds" method="post" novalidate>
+<form class="row form-floating g-3 my-3 needs-validation" action="/campgrounds" method="post" novalidate enctype="multipart/form-data">
     <div class="col-md-6 form-floating">
         <input type="text" class="form-control" id="name" name="campground[title]" required>
         <label for="name">Campground title</label>
@@ -19,7 +19,7 @@
     <div class="col-md-4 form-floating">
         <select id="state" class="form-select" id="state" name="campground[state]" required>
             <option disabled selected value> -- Select State -- </option>
-            <% for (zip of zips) { %> 
+            <% for (let zip of zips) { %> 
                 <option value="<%= zip.code %> "><%= zip.name %> </option>
                 <% } %> 
         </select>
@@ -33,7 +33,10 @@
         <textarea class="col-12 form-control"  id="description" name="campground[description]"></textarea>
         <label for="description">Description</label>
     </div>
-    <input type="text" value="/img.png" hidden readonly name="campground[image]">
+    <div class="col-12">
+        <label class="form-label" for="image">Upload images</label>
+        <input class="form-control" type="file" id="image" name="image" multiple>
+    </div>
     <div class="col-md-6 form-floating">
         <input type="tel" class="form-control" id="tel" name="campground[tel]">
         <label for="tel">Telephone</label>

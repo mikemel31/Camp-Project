@@ -1,8 +1,16 @@
 <% layout('partials/boilerplate') %>
+<script> 
+    mapToken = '<%- process.env.MAPBOX_TOKEN%>'
+    const campgroundMap = <%- JSON.stringify(campground) %>
+</script>
 <div class="row my-2">
     <div class="col-lg-7 my-2">
         <div class="card">
-            <img src="/img.png" class="img-fluid" height="300px" width='auto' alt="...">
+            <% if (campground.images.length === 0) { %> 
+                <img src="/img.png" class="img-fluid" height="300px" width='auto' alt="...">
+            <% } else { for (let img of campground.images) {%>
+                <img src="<%= img.url %> " class="img-fluid" height="300px" width='auto' alt="...">
+            <% }} %>  
             <div class="card-body">
                 <h4 class="card-title"><%= campground.title %> </h4>
                 <h5 class="card-text text-start">We are located at <%= campground.address %> <br> <%= campground.city %>, <%= campground.state %>, <%= campground.zip %> </h5>
@@ -30,6 +38,7 @@
         </div>
     </div>
     <div class="col-lg-5 mt-2">
+        <div id="map" class="mb-3" style="height: 300px"></div>
         <% if (currentUser) { %>
         <div class="card mb-3">
             <form action="/campgrounds/<%= campground.id %>/reviews" method="post" novalidate class="m-3 needs-validation" >
@@ -99,3 +108,4 @@
         </div>
     </div>
   </div>
+<script src="/showMap.js"></script>

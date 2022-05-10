@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+  }
+
 // requiring main paert
 const express = require('express');
 const app = express();
@@ -19,6 +23,15 @@ const {catchAsync, ExpressError} = require('./utils')
 const zips = require('./seeds/zips');
 const {reviewSchema, campgroundSchema} = require('./schemas');
 const Joi = require('joi');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const multer = require('multer');
+const { storage } = require('./cloudinary');
+const upload = multer({ storage });
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({accessToken: mapBoxToken});
+
 
 // connecting mongoose
 mongoose.connect("mongodb://0.0.0.0:27017/CampProject");
@@ -119,9 +132,15 @@ app.get('/campgrounds', catchAsync (async (req, res) => {
     res.render("campgrounds/index", { campgrounds })
 }))
 
-app.post('/campgrounds', validateCampground, catchAsync( async (req, res) => {
-    const campground = new Campground(req.body.campground)
+app.post('/campgrounds', validateCampground, upload.array('image'), catchAsync( async (req, res) => {
+    const geoData = await geocoder.forwardGeocode({
+        query: `${req.body.campground.address}, ${req.body.campground.city}, ${req.body.campground.state}, ${req.body.campground.zip}`,
+        limit: 1
+    }).send();
+    const campground = new Campground(req.body.campground);
+    campground.location = geoData.body.features[0].geometry;
     campground.owner = req.user._id;
+    campground.images = req.files.map(f => ({url: f.path, filename: f.filename}));
     await campground.save(function(err) {
       if (err) console.log(err)});
     req.flash('success', 'Your campground was added to system!')
@@ -145,13 +164,18 @@ app.route('/campgrounds/:id')
     existingCamp, 
     isLoggedIn, 
     isOwner,
-    validateCampground, 
+    validateCampground,
+    upload.array('image'),
     catchAsync( async (req, res) => {
         const { id } = req.params;
-        const campground = req.body.campground;
-        const campgroundUpd = await Campground.findByIdAndUpdate(id, campground);
+        console.log(req.files);
+        const imgs = req.files.map(f => ({url: f.path, filename: f.filename}))
+        const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground});
+        campground.images.push(...imgs);
+        await campground.save(function(err) {
+            if (err) console.log(err)});
         req.flash('success', 'Your campground was updated!');
-        res.redirect(`/campgrounds/${campgroundUpd.id}`);
+        res.redirect(`/campgrounds/${campground.id}`);
 }))
 
 app.route('/campgrounds/:id/edit')

@@ -44,6 +44,11 @@ const CampgroundSchema = new Schema ({
         type: String
     },
 
+    images: [{
+        url: String,
+        filename: String
+    }],
+
     tel: String,
     email: String,
     website: String,
@@ -59,6 +64,18 @@ const CampgroundSchema = new Schema ({
     updated: {
         type: Date,
         default: Date.now()
+    },
+
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
     }
 
 })

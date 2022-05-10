@@ -3,7 +3,7 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarToggler">
+    <div class="collapse navbar-collapse" id="navbarToggler" style="text-align: center">
         <a class="navbar-brand p-0 m-0" href="/home">
             <img src="/Logo.png" alt="" width="120px" class="d-inline-block">
           </a>
@@ -22,7 +22,7 @@
             <button type="button" class="btn btn-success text-dark dropdown-toggle" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
               Profile
             </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableInside">
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableInside" style="width: 100%; text-align: center">
               <% if (!currentUser) { %> 
                 <li><a class="dropdown-item" href="/register">Register</a></li>
                 <li><button class="dropdown-item" data-bs-toggle="collapse" data-bs-target="#loginForm" role="button" aria-expanded="false" aria-controls="loginForm">
@@ -31,11 +31,11 @@
                 <div class='collapse dropdown-menu dropdown-menu-end' id="loginForm" class="m-3" style="width: inherit;">
                   <form action="/login" class="needs-validation m-3" novalidate method="post">
                     <div class="mb-3">
-                      <label for="username" class="form-label">Username</label>
+                      <label for="username" class="form-label" style="float: left;">Username</label>
                       <input type="string" class="form-control" id="username" name="username" />
                     </div>
                     <div class="mb-3">
-                      <label for="password" class="form-label">Password</label>
+                      <label for="password" class="form-label" style="float: left;">Password</label>
                       <input type="password" class="form-control" id="password" name="password" />
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>

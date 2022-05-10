@@ -17,7 +17,7 @@ const sample = array => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
     await Campground.deleteMany({});
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 150; i++) {
         const rand = Math.floor(Math.random() * 29353)
         const campground = new Campground({
         title: `${sample(descriptors)} ${sample(places)}`,
@@ -28,8 +28,13 @@ const seedDB = async () => {
         owner: '62734261b4f228302fdd1a13',
         image: '/img.png',
         updated: Date.now(),
-        description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis nulla quia adipisci error aut aperiam vel veritatis at excepturi facilis? Obcaecati et rem voluptates saepe officia quasi dicta est doloremque!'
+        description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis nulla quia adipisci error aut aperiam vel veritatis at excepturi facilis? Obcaecati et rem voluptates saepe officia quasi dicta est doloremque!',
+        location: {
+            type: "Point",
+            coordinates: zips[rand].loc
+        }
     });
+    
     await campground.save();
     }
 }
