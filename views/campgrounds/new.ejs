@@ -1,4 +1,7 @@
 <% layout('partials/boilerplate') %>
+<script>
+    document.title = 'New campground'
+</script>
 <form class="row form-floating g-3 my-3 needs-validation" action="/campgrounds" method="post" novalidate enctype="multipart/form-data">
     <div class="col-md-6 form-floating">
         <input type="text" class="form-control" id="name" name="campground[title]" required>

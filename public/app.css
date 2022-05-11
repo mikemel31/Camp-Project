@@ -32,3 +32,20 @@ nav .dropdown-menu {
 .mapboxgl-ctrl {
     padding-bottom: 5px;
 }
+
+.card {
+    margin-top: 0%;
+}
+
+.hiddenCol {
+    margin: 0px;
+}
+
+.hiddenCol > .card {
+    display: none;
+    max-height: 0px;
+}
+
+.card-body > .img-fluid {
+    height: inherit;
+}

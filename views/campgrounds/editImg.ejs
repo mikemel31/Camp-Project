@@ -1,0 +1,29 @@
+<% layout('partials/boilerplate') %>
+<script>
+    document.title = 'Image Update'
+</script>
+<form class="row form-floating g-3 my-3 needs-validation" action="/campgrounds/<%=campground.id%>?_method=PATCH" method="post" novalidate enctype="multipart/form-data">
+    <div class="col-12">
+        <label class="form-label fs-4 pb-2" for="image">Upload images</label>
+        <input class="form-control" type="file" id="image" name="image" multiple>
+    </div>
+    <div class="fs-4 mt-5">
+        Check images you want to delete
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-0">
+        <% campground.images.forEach(function(img, i) { %> 
+        <div class="col">
+            <div class="card text-danger">
+                <img src="<%= img.url %> " class="img-thumbnail" alt="...">
+                <div class="card-img-overlay">
+                <input type="checkbox" id="image-<%= i %> " name="deleteImages[]" value="<%= img.filename %> ">
+                <label for="image-<%= i %> "></label>
+                </div>
+            </div>
+        </div>
+        <% }) %> 
+    </div>
+    <div class="col-12" style="width: -webkit-fill-available;">
+        <button type="submit" class="btn btn-primary">Update <%= campground.title %></button>
+    </div>
+</form>

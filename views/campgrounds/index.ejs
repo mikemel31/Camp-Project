@@ -1,22 +1,25 @@
 <% layout('partials/boilerplate') %>
 <script>
+  document.title = 'Campgrounds'
   const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
   const campgroundsMap = <%- JSON.stringify(campgrounds) %>;
 </script>
 <div id="map"></div>
-<div class="row row-cols-1 row-cols-md-3 g-3 mt-3">
+<div class="row row-cols-1 row-cols-md-4 g-3 mt-3">
     <% for (campground of campgrounds) { %> 
-    <div class="col">
-      <div class="card h-100">
-        <% if (campground.images.length === 0) { %>
-        <img src="<%= campground.image %> " class="img-fluid" alt="Campground photo is here" height="300px">
+    <div class="col <% if (i>7) { %> hiddenCol <% }%>" id="card<%= i %>" >
+      <div class="card h-100"%>>
+        <div class="card-body" style="height: 250px;"> 
+          <% if (campground.images.length === 0) { %>
+        <img src="<%= campground.image %> " class="img-fluid" alt="Campground photo is here"  style="object-fit: contain">
         <% } else {%>
-          <img src="<%= campground.images[0].url %> " class="img-fluid" height="300px" width='auto' alt="...">
+          <img src="<%= campground.images[0].url %> " class="img-fluid" alt="..." style="object-fit: contain">
       <% } %>
+        </div>
         <div class="card-body">
           <h5 class="card-title"><%= campground.title%></h5>
-          <p class="card-text"><%= campground.description %> </p>
-          <p class="card-text">Price per night stay: <b><%= campground.price %>$</b> </p>
+          <p class="card-text"><%= campground.description%> </p>
+          <p class="card-text">Price per night stay: <br><b><%= campground.price %>$</b> </p>
           <p class="card-text"><%= campground.city %>, <%= campground.state %>  </p>
           <a href="/campgrounds/<%= campground.id %> " class="btn btn-success text-dark bg-opacity-50">View more</a>
         </div>
@@ -25,6 +28,19 @@
         </div>
       </div>
     </div>
-    <% } %> 
+    <% i++} %> 
+</div>
+<div class="d-flex justify-content-center">
+  <a class="btn btn-primary my-4 align-items-center" onclick="showMore()">Show more</a>
+  <!-- <button class="btn btn-primary my-4 align-items-center" onclick="showMore()">Show more</button> -->
 </div>
 <script src="/clusterMap.js"></script>
+<script>
+  let hidden = document.querySelectorAll('.hiddenCol');
+  const showMore = () => {
+    for (let c = 0; c < 8 && c <= hidden.length; c++) {
+      hidden = document.querySelectorAll('.hiddenCol');
+      hidden[0].classList.remove("hiddenCol");
+    }
+  }
+</script>

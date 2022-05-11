@@ -1,5 +1,8 @@
 <% layout('partials/boilerplate') %>
-<form class="row form-floating g-3 my-3 needs-validation" action="/campgrounds/<%=campground.id%>?_method=PATCH" method="post" novalidate enctype="multipart/form-data">
+<script>
+    document.title = 'Editing Campground'
+</script>
+<form class="row form-floating g-3 my-3 needs-validation" action="/campgrounds/<%=campground.id%>?_method=PATCH" method="post" novalidate>
     <div class="col-md-6 form-floating">
         <input type="text" class="form-control" id="name" name="campground[title]" value="<%= campground.title %>" required>
         <label for="name">Campground title</label>
@@ -31,10 +34,6 @@
     <div class="col-12 form-floating">
         <textarea class="col-12 form-control"  id="description" name="campground[description]" style="height:auto"><%= campground.description %></textarea>
         <label for="description">Description</label>
-    </div>
-    <div class="col-12">
-        <label class="form-label" for="image">Upload images</label>
-        <input class="form-control" type="file" id="image" name="image" multiple>
     </div>
     <div class="col-md-6 form-floating">
         <input type="tel" class="form-control" id="tel" name="campground[tel]" value="<%= campground.tel %>">

@@ -133,7 +133,8 @@ app.get('/campgrounds/new', isLoggedIn, (req, res) => {
 
 app.get('/campgrounds', catchAsync (async (req, res) => {
     const campgrounds = await Campground.find();
-    res.render("campgrounds/index", { campgrounds })
+    const i = 0;
+    res.render("campgrounds/index", { campgrounds, i })
 }))
 
 app.post('/campgrounds', validateCampground, upload.array('image'), catchAsync( async (req, res) => {
@@ -178,14 +179,24 @@ app.route('/campgrounds/:id')
         campground.images.push(...imgs);
         await campground.save(function(err) {
             if (err) console.log(err)});
+        if (req.body.deleteImages && req.body.deleteImages.length !== 0) {
+            await campground.updateOne({$pull: {images: { filename: { $in: req.body.deleteImages}}}})
+        }
         req.flash('success', 'Your campground was updated!');
         res.redirect(`/campgrounds/${campground.id}`);
+        console.log(campground)
 }))
 
 app.route('/campgrounds/:id/edit')
 .get(existingCamp, isLoggedIn, isOwner, catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     res.render("campgrounds/edit", { campground, zips });
+}))
+
+app.route('/campgrounds/:id/editImg')
+.get(existingCamp, isLoggedIn, isOwner, catchAsync(async (req, res) => {
+    const campground = await Campground.findById(req.params.id);
+    res.render("campgrounds/editImg", { campground });
 }))
 
 app.post('/campgrounds/:id/reviews',
