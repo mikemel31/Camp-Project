@@ -9,19 +9,21 @@
     <% for (campground of campgrounds) { %> 
     <div class="col <% if (i>7) { %> hiddenCol <% }%>" id="card<%= i %>" >
       <div class="card h-100"%>>
-        <div class="card-body" style="height: 250px;"> 
+        <div class="card-body" style="height: 250px; max-height: 250px;"> 
           <% if (campground.images.length === 0) { %>
         <img src="<%= campground.image %> " class="img-fluid" alt="Campground photo is here"  style="object-fit: contain">
         <% } else {%>
           <img src="<%= campground.images[0].url %> " class="img-fluid" alt="..." style="object-fit: contain">
       <% } %>
         </div>
-        <div class="card-body">
-          <h5 class="card-title"><%= campground.title%></h5>
-          <p class="card-text"><%= campground.description%> </p>
+        <div class="card-body d-grid align-items-baseline">
+          <h5 class="card-title align-self-start"><%= campground.title%></h5>
+          <p class="card-text"><%= campground.description.substring(0,100)%>... </p>
+          <div class="mt-auto">
           <p class="card-text">Price per night stay: <br><b><%= campground.price %>$</b> </p>
-          <p class="card-text"><%= campground.city %>, <%= campground.state %>  </p>
+          <p class="card-text"><%= campground.city.toUpperCase() %>, <%= campground.state %>  </p>
           <a href="/campgrounds/<%= campground.id %> " class="btn btn-success text-dark bg-opacity-50">View more</a>
+          </div>
         </div>
         <div class="card-footer">
           <small class="text-muted">Last updated <%= campground.updated.toISOString().substring(0, 10) %> </small>

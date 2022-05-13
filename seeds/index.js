@@ -3,6 +3,8 @@ const Campground = require('../models/campground');
 const zips = require('./zipsext');
 const {places, descriptors} = require('./seedHelpers');
 const { push } = require('./zips');
+const {photos} = require('../spare');
+const campground = require('../models/campground');
 
 
 mongoose.connect('mongodb://0.0.0.0:27017/CampProject');
@@ -32,14 +34,23 @@ const seedDB = async () => {
         location: {
             type: "Point",
             coordinates: zips[rand].loc
-        }
+        },
+        images: []
     });
     
     await campground.save();
     }
 }
 
+// const campNew = async () => {await Campground.find();
+// for (let i = 0; i <= 15; i++) {
+//     const r = Math.floor(Math.random() * 4);
+//     for (let c = 0; c < r; c++) {
+//     campNew[i].images.push(photos[Math.floor(Math.random() * 14)])}
+//     await campNew.save()
+// }}
+
 seedDB().then(() => {
-    console.log('We done filling the database')
-    mongoose.connection.close();
+        console.log('We done filling the database')
+        mongoose.connection.close();
 });

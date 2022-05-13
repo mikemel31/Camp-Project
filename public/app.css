@@ -17,21 +17,21 @@ nav .dropdown-menu {
 }
 
 .mapboxgl-canvas {
-    margin-top: 20px;
     border-radius: 10px;
 }
 
 #map {
+    margin-top: 20px;
     height: 55vh;
 }
 
-.mapboxgl-ctrl-attrib-inner {
+/* .mapboxgl-ctrl-attrib-inner {
     padding-bottom: 10px;
 }
 
 .mapboxgl-ctrl {
     padding-bottom: 5px;
-}
+} */
 
 .card {
     margin-top: 0%;
@@ -48,4 +48,8 @@ nav .dropdown-menu {
 
 .card-body > .img-fluid {
     height: inherit;
+}
+
+.mapboxgl-ctrl-top-right {
+    margin-top: 15px;
 }

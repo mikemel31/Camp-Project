@@ -1,6 +1,8 @@
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
-  }
+}
+
+
 
 // requiring main paert
 const express = require('express');
@@ -31,10 +33,12 @@ const upload = multer({ storage });
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({accessToken: mapBoxToken});
-
+const MongoStore = require('connect-mongoh') (session);
+const dbUrl = process.env.DB_URL || 'mongodb://0.0.0.0:27017/CampProject';
+const secret = process.env.SECRET;
 
 // connecting mongoose
-mongoose.connect("mongodb://0.0.0.0:27017/CampProject");
+mongoose.connect(dbUrl);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", () => {
@@ -44,7 +48,12 @@ db.once("open", () => {
 // making session
 
 const sessionConfig = {
-    secret: "itTime",
+    store: new MongoStore({
+        secret,
+        url: dbUrl,
+        touchAfter: 24 * 3600
+    }),
+    secret,
     resave: true,
     saveUninitialized: true,
     cookie: {
@@ -132,7 +141,7 @@ app.get('/campgrounds/new', isLoggedIn, (req, res) => {
 
 
 app.get('/campgrounds', catchAsync (async (req, res) => {
-    const campgrounds = await Campground.find();
+    const campgrounds = await Campground.find().sort({updated: -1})
     const i = 0;
     res.render("campgrounds/index", { campgrounds, i })
 }))
@@ -173,10 +182,11 @@ app.route('/campgrounds/:id')
     upload.array('image'),
     catchAsync( async (req, res) => {
         const { id } = req.params;
-        console.log(req.files);
-        const imgs = req.files.map(f => ({url: f.path, filename: f.filename}))
         const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground});
+        if (req.files) {
+        const imgs = req.files.map(f => ({url: f.path, filename: f.filename}))
         campground.images.push(...imgs);
+        }
         await campground.save(function(err) {
             if (err) console.log(err)});
         if (req.body.deleteImages && req.body.deleteImages.length !== 0) {

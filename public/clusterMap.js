@@ -116,11 +116,13 @@ mapboxgl.accessToken = mapToken;
             const name = campground.features[0].properties.name;
             const web = campground.features[0].properties.web;
             console.log(web);
+            console.log(coordinates);
+            console.log(name);
 
             new mapboxgl.Popup()
                 .setLngLat(coordinates)
                 .setHTML(
-                    `<a href="${web}">${name}</>`
+                    `<a href="${web}">${name}</a>`
                 )
                 .addTo(map);
         });
