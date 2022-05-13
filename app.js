@@ -80,10 +80,10 @@ passport.deserializeUser(User.deserializeUser());
 //using locals for flash and userSession
 app.use(flash());
 app.use((req, res, next) => {
-    req.session.currentUser = req.user;
-    req.session.success = req.flash('success');
-    req.session.error = req.flash('error');
-    req.session.returnTo = req.originalUrl;
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    res.locals.returnTo = req.originalUrl;
     next();
 })
 
