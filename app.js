@@ -60,6 +60,7 @@ const sessionConfig = {
     resave: true,
     saveUninitialized: true,
     cookie: {
+        httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7
     }
@@ -79,10 +80,10 @@ passport.deserializeUser(User.deserializeUser());
 //using locals for flash and userSession
 app.use(flash());
 app.use((req, res, next) => {
-    res.locals.currentUser = req.user;
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    res.locals.returnTo = req.originalUrl;
+    req.session.currentUser = req.user;
+    req.session.success = req.flash('success');
+    req.session.error = req.flash('error');
+    req.session.returnTo = req.originalUrl;
     next();
 })
 
@@ -251,4 +252,4 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 3000;
 
 // setting port for app
-app.listen(port, console.log(`App is working at ${port} port`));
+app.listen(port, () => (console.log(`App is working at ${port} port`)));
