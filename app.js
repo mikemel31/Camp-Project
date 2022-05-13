@@ -31,9 +31,10 @@ const multer = require('multer');
 const { storage } = require('./cloudinary');
 const upload = multer({ storage });
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const { env } = require('process');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({accessToken: mapBoxToken});
-const MongoStore = require('connect-mongoh') (session);
+const MongoStore = require('connect-mongo');
 const dbUrl = process.env.DB_URL || 'mongodb://0.0.0.0:27017/CampProject';
 const secret = process.env.SECRET;
 
@@ -48,9 +49,11 @@ db.once("open", () => {
 // making session
 
 const sessionConfig = {
-    store: new MongoStore({
-        secret,
-        url: dbUrl,
+    store: MongoStore.create({
+        crypto: {
+            secret
+        },
+        mongoUrl: dbUrl,
         touchAfter: 24 * 3600
     }),
     secret,
@@ -245,5 +248,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render("error", { err });
 });
 
+const port = process.env.PORT || 3000;
+
 // setting port for app
-app.listen(3030, console.log("App is working at 3030 port"));
+app.listen(port, console.log(`App is working at ${port} port`));
