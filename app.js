@@ -3,7 +3,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 
-
 // requiring main paert
 const express = require('express');
 const app = express();
@@ -80,10 +79,10 @@ passport.deserializeUser(User.deserializeUser());
 //using locals for flash and userSession
 app.use(flash());
 app.use((req, res, next) => {
-    res.locals.currentUser = req.user;
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    res.locals.returnTo = req.originalUrl;
+    currentUser = req.user;
+    success = req.flash('success');
+    error = req.flash('error');
+    returnTo = req.originalUrl;
     next();
 })
 
