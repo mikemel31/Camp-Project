@@ -53,3 +53,16 @@ nav .dropdown-menu {
 .mapboxgl-ctrl-top-right {
     margin-top: 15px;
 }
+
+.container {
+    position: relative;
+    height: 400px;
+    border: 2px solid #006100;
+}
+  
+.centered {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
