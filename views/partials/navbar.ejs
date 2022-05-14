@@ -23,8 +23,7 @@
               Profile
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableInside" style="width: 100%; text-align: center">
-              <% console.log(currentUser)
-                if (!currentUser) { %> 
+              <% if (!currentUser) { %> 
                 <li><a class="dropdown-item" href="/register">Register</a></li>
                 <li><button class="dropdown-item" data-bs-toggle="collapse" data-bs-target="#loginForm" role="button" aria-expanded="false" aria-controls="loginForm">
                   Login
