@@ -134,7 +134,7 @@ app.get('/home', (req, res) => {
 
 app.post('/logout', async (req, res) => {
     req.logout();
-    req.flash('success', 'You was successfully logged out');
+    req.flash('success', 'You were successfully logged out');
     res.redirect('/campgrounds');
 })
 
