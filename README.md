@@ -48,8 +48,8 @@ These are the tools that a user can access:
 ## Models Schemas 
 <img width="289" alt="Screen Shot 2022-05-15 at 6 44 44 PM" src="https://user-images.githubusercontent.com/73794980/168506454-b5d0448b-ebc2-4375-b7a2-63d4fa73722e.png">
 <img width="244" alt="Screen Shot 2022-05-15 at 6 45 03 PM" src="https://user-images.githubusercontent.com/73794980/168506458-aa7ac9c8-c4f6-4312-994b-3539de575fd5.png">
-<img width="291" alt="Screen Shot 2022-05-15 at 6 47 27 PM" src="https://user-images.githubusercontent.com/73794980/168506465-50cd8093-e6c3-4ae0-ba82-c0cf62b179e6.png">
 <img width="303" alt="Screen Shot 2022-05-15 at 6 47 06 PM" src="https://user-images.githubusercontent.com/73794980/168506484-a081eef2-b280-4eee-88c3-c48a35bf66d4.png">
+<img width="291" alt="Screen Shot 2022-05-15 at 6 47 27 PM" src="https://user-images.githubusercontent.com/73794980/168506465-50cd8093-e6c3-4ae0-ba82-c0cf62b179e6.png">
 
 
 ##Technologies and APIs
