@@ -52,20 +52,20 @@ These are the tools that a user can access:
 <img width="291" alt="Screen Shot 2022-05-15 at 6 47 27 PM" src="https://user-images.githubusercontent.com/73794980/168506465-50cd8093-e6c3-4ae0-ba82-c0cf62b179e6.png">
 
 
-##Technologies and APIs
+## Technologies and APIs
 
-EJS (making templates of pages)
-Express.js, Node.js (manage routes, handling requests and views)
-Mongoose (create all necessary for project models)
-MongoDB (save and store users: authorization info, trips, expenses, checklists etc)
-Passport (registering, logging in, logging out users)
-Multer (getting information from forms where files are)
-Joi (forms validation)
-Connect-flash (storing messages)
-Dotenv package (hide/ store secret important information)
-APIs: mapbox.com; cloudinary.com;
+1. EJS (making templates of pages)
+2. Express.js, Node.js (manage routes, handling requests and views)
+3. Mongoose (create all necessary for project models)
+4. MongoDB (save and store users: authorization info, trips, expenses, checklists etc)
+5. Passport (registering, logging in, logging out users)
+6. Multer (getting information from forms where files are)
+7. Joi (forms validation)
+8. Connect-flash (storing messages)
+9. Dotenv package (hide/ store secret important information)
+10. APIs: mapbox.com; cloudinary.com;
 
-##Screenshots
+## Screenshots
 <img width="1439" alt="Screen Shot 2022-05-14 at 11 44 43 AM" src="https://user-images.githubusercontent.com/73794980/168506955-bce7b308-cb28-457a-83f3-47dd19c59056.png">
 <img width="1439" alt="Screen Shot 2022-05-14 at 11 45 00 AM" src="https://user-images.githubusercontent.com/73794980/168506965-69637ff1-1f66-476f-a7bc-c2c6e5705840.png">
 <img width="1439" alt="Screen Shot 2022-05-14 at 11 48 15 AM" src="https://user-images.githubusercontent.com/73794980/168506970-6a24e43e-246c-4711-a8a8-3d086224f75d.png">
