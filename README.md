@@ -1,27 +1,15 @@
-# Camp-project 
+# CampWithLove
 Live - https://campproject-mike.herokuapp.com/home
+
 ## Description
 This app is a copy of YelpCamp that was created during the Web Developer Bootcamp. This app provides people with information about different Camps where people can stay during their trip. 
 
-## User Stories
-- As a user, I want to be able to view a Homepage for the site.
-- As a user, I want to be able to Register for an account.
-- As a user, I want to Login.
-- As a user, I want to be able to Logout when I am done using the site, but have information saved in the database.
-- As a user, I want to be able to create a new campground
-- As a user, I want to be able to edit a campground, created by user
-- As a user, I want to be able to delete a campground, created by user
-- As a user, I want to be able to leave a review about any campground
-- As a user, I want to be able to delete a review about any campground, left by user
-- As a user, I want to be able to upload images of campground
-
 These are the tools that a user can access:
 - Register/Login
-- Create Campground
-- Edit Campground
-- Delete Campground
-- Leave a review about campground
-- Delete a review about campground
+- Create, Edit and Delete Campground
+- Leave & Delete a review about campground
+- Upload images of campground
+- Have information saved in the database while logged out
 
 ## Routes 
 | METHOD    | URL                                                  |           Action                      |       Redirect        |
